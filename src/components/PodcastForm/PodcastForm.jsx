@@ -4,6 +4,7 @@ export default class PodcastForm extends Component {
     state = {
         name: '',
         host: '',
+        thumbnail: '',
         episodeName: '',
         episodeNum: '',
         guest: '',
@@ -29,6 +30,10 @@ export default class PodcastForm extends Component {
                 <div className="row mb-3">
                     <label for="host" className="visually-hidden">Host</label>
                     <input type="text" className="form-control" id="host" placeholder="Host" value={this.state.host} />
+                </div>
+                <div className="row mb-3">
+                    <label for="thumbnail" className="visually-hidden">Thumbnail URL</label>
+                    <input type="text" className="form-control" id="host" placeholder="URL" value={this.state.thumbnail} />
                 </div>
                 <div className="row mb-3">
                     <label for="episodeName" className="visually-hidden">Episode</label>
