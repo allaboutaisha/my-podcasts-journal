@@ -8,6 +8,7 @@ const podcastSchema = new Schema({
     },
     name: { type: String, required: true},
     host: { type: String, required: true},
+    thumbnail: String,
     episodeName: String,
     episodeNum: Number,
     guest: String,
