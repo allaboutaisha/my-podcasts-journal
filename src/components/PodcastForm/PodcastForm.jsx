@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { addOne } from '../../utilities/podcasts-api';
 
 export default class PodcastForm extends Component {
     state = {
@@ -23,10 +24,19 @@ export default class PodcastForm extends Component {
         })
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
-        const formData = {...this.state};
-        console.log(formData);
+        try {
+            const formData = {...this.state};
+            console.log(formData)
+            delete formData.error;
+            delete formData.confirm;
+            const podcast = await addOne(formData);
+            this.props.setPodcast(podcast)
+            alert(`${podcast}`);
+        } catch {
+            this.setState({ error: 'Error' });
+        } 
     }
 
     render() {
@@ -34,11 +44,11 @@ export default class PodcastForm extends Component {
             <form onSubmit={ this.handleSubmit }>
                 <div className="row mb-3">
                     <label for="name" className="visually-hidden">Podcast</label>
-                    <input type="text" className="form-control" id="name" placeholder="Podcast" value={this.state.name} onChange={ this.handleChange } />
+                    <input type="text" className="form-control" id="name" placeholder="Podcast" value={this.state.name} onChange={ this.handleChange } required />
                 </div>
                 <div className="row mb-3">
                     <label for="host" className="visually-hidden">Host</label>
-                    <input type="text" className="form-control" id="host" placeholder="Host" value={this.state.host} onChange={ this.handleChange } />
+                    <input type="text" className="form-control" id="host" placeholder="Host" value={this.state.host} onChange={ this.handleChange } required />
                 </div>
                 <div className="row mb-3">
                     <label for="thumbnail" className="visually-hidden">Thumbnail URL</label>
@@ -60,33 +70,14 @@ export default class PodcastForm extends Component {
                     <label for="dateListened" className="visually-hidden">Date</label>
                     <input type="date" className="form-control" id="dateListened" value={this.state.dateListened} onChange={ this.handleChange } />
                 </div>
-                <div className="row mb-3">
-                    <label for="genre" className="visually-hidden">Genre</label>
-                    <input type="text" className="form-control" id="genre" placeholder="Genre" value={this.state.genre} onChange={ this.handleChange } />
+                <div>
+                    <select className="form-select" aria-label="Default select example" id="listening" value={this.state.listening} onChange={ this.handleChange } >
+                        <option selected>Listening?</option>
+                        <option value={'listening'}>Currently Listening</option>
+                        <option value={'listened'}>Listened</option>
+                        <option value={'wantToListen'}>Want to Listen</option>
+                    </select>
                 </div>
-                <fieldset className="row mb-3">
-                    <legend className="col-form-label col-sm-2 pt-0">Listening?</legend>
-                    <div className="col-auto">
-                        <div className="form-check" >
-                            <input className="form-check-input" type="radio" name="gridRadios" id="listening" value="currently listening" checked={this.state.listening === "currently listening"} onChange={this.handleChange} />
-                            <label className="form-check-label" for="gridRadios1">
-                                Listening
-                            </label>
-                        </div>
-                        <div className="form-check">
-                            <input className="form-check-input" type="radio" name="gridRadios" id="listening" value="listened" checked={this.state.listening === "listened"} onChange={this.handleChange} />
-                            <label className="form-check-label" for="gridRadios2">
-                                Listened
-                            </label>
-                        </div>
-                        <div className="form-check">
-                            <input className="form-check-input" type="radio" name="gridRadios" id="listening" value="want to listen" checked={this.state.listening === "want to listen"} onChange={this.handleChange} />
-                            <label className="form-check-label" for="gridRadios3">
-                                Want to Listen
-                            </label>
-                        </div>
-                    </div>
-                </fieldset>
                 <div>
                     {/* add conditional to show rating option for listened, listening only */}
                     <select className="form-select" aria-label="Default select example" id="rating" value={this.state.rating} onChange={ this.handleChange } >

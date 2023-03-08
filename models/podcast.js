@@ -13,19 +13,10 @@ const podcastSchema = new Schema({
     episodeNum: Number,
     guest: String,
     dateListened: Date,
-    listening: {
-        type: String,
-        enum: [' currently listening', 'listened', 'want to listen'],
-        default: 'currently listening',
-        required: true
-    },
+    listening: String,
     entry: { 
         type: Schema.Types.ObjectId, 
         ref: 'Entry'
-    },
-    genre: { 
-        type: Schema.types.ObjectId, 
-        ref: 'Genre'
     },
     rating: Number,
 }, {
