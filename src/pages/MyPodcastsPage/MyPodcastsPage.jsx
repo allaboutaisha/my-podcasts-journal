@@ -1,11 +1,10 @@
-import PodcastForm from "../../components/PodcastForm/PodcastForm";
+import { Link } from 'react-router-dom';
 
 export default function MyPodcastsPage() {
     return(
         <>
         <h1>My Podcasts</h1>
-        <PodcastForm />
+        <Link to='/podcasts/new'>Add Podcast</Link>
         </>
-        
         )
 }

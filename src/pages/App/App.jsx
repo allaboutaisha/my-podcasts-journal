@@ -8,6 +8,7 @@ import MyPodcastsPage from '../MyPodcastsPage/MyPodcastsPage';
 import NavBar from '../../components/NavBar/NavBar'; 
 import HomePage from '../HomePage/HomePage';
 import ProfilePage from '../ProfilePage/ProfilePage';
+import AddPodcastPage from '../AddPodcastPage/AddPodcastPage';
 
 export default function App() {
   const [user, setUser] = useState(getUser());
@@ -21,6 +22,7 @@ export default function App() {
         <Routes>
           <Route path="/entries" element={<MyEntriesPage /> } />
           <Route path="/podcasts" element={<MyPodcastsPage /> } />
+          <Route path="/podcasts/new" element={<AddPodcastPage /> } />
           <Route path='/home' element={<HomePage /> } />
           <Route path='/profile' element={<ProfilePage /> } />
         </Routes> 
