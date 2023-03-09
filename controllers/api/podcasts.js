@@ -1,7 +1,8 @@
 const Podcast = require('../../models/podcast');
 
 module.exports = {
-    create
+    create,
+    index
 };
 
 async function create(req, res) {
@@ -9,3 +10,9 @@ async function create(req, res) {
     console.log(req.body)
     res.json(podcast);
 };
+
+async function index(req, res) {
+    const userPodcasts = await Podcast.find({});
+    console.log(userPodcasts)
+    res.json(userPodcasts);
+}
