@@ -17,7 +17,8 @@ export default function PodcastSeachBar() {
             .then(data => console.log(data))
         }, []);
 
-    async function search() {
+    async function search(event) {
+        event.preventDefault();
         console.log("Search for " + podcastSearch);
         let showParameters = {
             method: 'GET',
@@ -26,17 +27,17 @@ export default function PodcastSeachBar() {
                 'Authorization': 'Bearer ' + accessToken
             }
         }
-        let showID = await fetch('https://api.spotify.com/v1/search?q=' + podcastSearch + 'type=show' + showParameters)
+        let showID = await fetch('https://api.spotify.com/v1/search?q=' + podcastSearch + '&type=show' + showParameters)
             .then(response => response.json())
-            .then(data => { return data.shows.items[0].id })   
+            .then(data => { return data.shows.items.id })   
         console.log("Show ID is " + showID);
     }
 
     return (
         <div class="container-fluid">
             <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChan />
-                <button class="btn btn-outline-success" type="submit">Search</button>
+                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={event => setPodcastSearch(event.target.value)} />
+                <button className="btn btn-outline-success" type="submit" onClick={search}>Search</button>
             </form>
         </div>)
 };
