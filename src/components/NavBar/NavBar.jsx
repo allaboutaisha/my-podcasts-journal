@@ -8,7 +8,7 @@ export default function NavBar({ user, setUser }) {
   }
   
   return (
-  <nav>
+  <nav className="navBar">
     <Link to="/home">Home</Link>
     &nbsp; | &nbsp;
     { user ?
