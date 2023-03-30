@@ -34,8 +34,8 @@ export default function PodcastSeachBar() {
     }
 
     return (
-        <div class="container-fluid">
-            <form class="d-flex">
+        <div className="container-fluid">
+            <form className="d-flex">
                 <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={event => setPodcastSearch(event.target.value)} />
                 <button className="btn btn-outline-success" type="submit" onClick={search}>Search</button>
             </form>
