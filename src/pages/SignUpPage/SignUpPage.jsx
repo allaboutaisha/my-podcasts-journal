@@ -1,9 +1,9 @@
 import SignUpForm from "../../components/SignUpForm/SignUpForm";
 
-export default function SignUpPage() {
+export default function SignUpPage({ setUser }) {
     return(
         <>
-        <SignUpForm />
+        <SignUpForm setUser={setUser} />
         <button className=""></button>
         </>
     )
