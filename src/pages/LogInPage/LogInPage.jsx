@@ -8,7 +8,7 @@ export default function LogInPage({ setUser }) {
       <h1>Logo</h1>
       {/* Logo will be clickable to go to HomePage */}
       {/* NavBar will be removed */}
-      <LoginForm setUser = {setUser} className="loginForm"/>
+      <LoginForm className="loginForm"/>
       <Link to="/signup" className="signUpButton">Sign Up</Link>
       <img src="https://i.imgur.com/lcDxjtd.png" alt="podcast collage" className="podcastCollage"/>
     </main>

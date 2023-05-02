@@ -1,42 +1,48 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { getUser } from '../../utilities/users-service';
 import MyEntriesPage from '../MyEntriesPage/MyEntriesPage';
-import LogInPage from '../LogInPage/LogInPage';
 import MyPodcastsPage from '../MyPodcastsPage/MyPodcastsPage';
 import NavBar from '../../components/NavBar/NavBar'; 
 import HomePage from '../HomePage/HomePage';
 import ProfilePage from '../ProfilePage/ProfilePage';
 import AddPodcastPage from '../AddPodcastPage/AddPodcastPage';
+import { auth } from '../../firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 import SignUpPage from '../SignUpPage/SignUpPage';
+import LogInPage from '../LogInPage/LogInPage';
+
 
 export default function App() {
-  const [user, setUser] = useState(getUser());
-  // const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => setUser(user));
+    
+    return () => {
+      // cleanup actions
+      unsubscribe();
+    }
+  }, []);
+
   return (
     <main className="App">
       <>
-       <NavBar user={user} setUser={setUser}/> 
+       <NavBar user={user} setUser={setUser} /> 
       </>
-      { user ? 
         <Routes>
           <Route path="/entries" element={<MyEntriesPage /> } />
           <Route path="/podcasts" element={<MyPodcastsPage /> } />
           <Route path="/podcasts/new" element={<AddPodcastPage /> } />
           <Route path="/home" element={<HomePage /> } />
-          <Route path="/profile" element={<ProfilePage /> } />
-        </Routes> 
-      : 
-      <>
-        <Routes>
-          <Route path="/login" element={<LogInPage user={user} setUser={setUser} /> } /> 
-          <Route path="/signup" element={<SignUpPage setUser={setUser} /> } />
+          <Route path="/profile" element={<ProfilePage user={user} /> } />
           <Route path="/home" element={<HomePage /> } />
-          <Route path="/*" element={<Navigate to="/login" />} />
+          <Route path="/signup" element={<SignUpPage setUser={setUser} /> } />
+          <Route path="/login" element={<LogInPage setUser={setUser} /> } />
+
         </Routes>
-      </>
-      }
+    
     </main>
   ); 
 } 
