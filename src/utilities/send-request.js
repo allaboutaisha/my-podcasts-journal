@@ -1,24 +1,28 @@
-import { getToken } from './users-service';
+function getToken() { 
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+    // Obtain the payload of the token 
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    if (payload.exp < Date.now() / 1000) {
+        localStorage.removeItem('token');
+        return null;
+    }
+    return token;
+};
+
 
 export default async function sendRequest(url, method = 'GET', payload = null) {
-    // Fetch accepts an options object as the 2nd argument
-    // used to include a data payload, set headers, etc. 
     const options = { method };
     if (payload) {
         options.headers = { 'Content-Type': 'application/json' };
         options.body = JSON.stringify(payload);
     }
-    const token = getToken();
+    const token = getToken()
     if (token) {
-        // Ensure the headers object exists
         options.headers = options.headers || {};
-        // Add token to an Authorization header
-        // Prefacing with 'Bearer' is recommended in the HTTP specification
         options.headers.Authorization = `Bearer ${token}`;
     }
     const res = await fetch(url, options);
-    // res.ok will be false if the status code set to 4xx in the controller action
-    console.log(res);
     if (res.ok) return res.json();
     throw new Error('Bad Request');
 }

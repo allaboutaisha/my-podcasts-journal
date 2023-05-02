@@ -1,4 +1,4 @@
-import sendRequest from './send-request'; 
+import sendRequest from "../utilities/send-request"
 const BASE_URL = '/api/podcasts';
 
 export function addOne(newPodcast) {
