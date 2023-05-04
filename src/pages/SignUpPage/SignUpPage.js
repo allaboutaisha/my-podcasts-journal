@@ -1,12 +1,21 @@
 import { auth } from "../../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { useState } from "react";
+import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 
-export default function SignUpPage() {
+export default function SignUpPage({user, setUser}) {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => setUser(user));
+        
+        return () => {
+          // cleanup actions
+          unsubscribe();
+        }
+      }, []);
 
     async function signup() {
         await createUserWithEmailAndPassword(auth, email, password);
